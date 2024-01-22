@@ -1,0 +1,12 @@
+[Unit]
+Description=On system colorscheme changed - update config files for terminal-based applications
+Requires=dbus.service
+After=dbus.service
+
+[Service]
+ExecStart=/bin/bash -c on-colorscheme-changed
+Type=simple
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
