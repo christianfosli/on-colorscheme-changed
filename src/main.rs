@@ -50,7 +50,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 }
 
 async fn on_colorscheme_changed(cs: ColorScheme) -> Result<(), Box<dyn Error>> {
-    println!("Updating helix config to {:?}", cs);
+    println!("Colorscheme changed: {:?}", cs);
 
     let (from, to) = if cs == ColorScheme::Light {
         ("catppuccin_mocha", "catppuccin_latte")
@@ -63,25 +63,25 @@ async fn on_colorscheme_changed(cs: ColorScheme) -> Result<(), Box<dyn Error>> {
     let helix_conf = fs::read_to_string(&helix_conf_file).await?;
 
     if helix_conf.contains(from) {
+        println!("Updating helix config to {:?}", cs);
         let helix_conf = helix_conf.replace(from, to);
         fs::write(helix_conf_file, &helix_conf).await?;
     } else {
         println!("helix config did not contain {from}. Nothing to do.");
     }
 
-    println!("Updating alacritty.toml to {:?}", cs);
     let mut from_fname = dirs::config_dir().unwrap();
     let mut to_fname = dirs::config_dir().unwrap();
     if cs == ColorScheme::Light {
         from_fname.push("alacritty/alacritty.light.toml");
-        to_fname.push("alacritt/alacritty.dark.toml");
+        to_fname.push("alacritty/alacritty.dark.toml");
     } else {
         from_fname.push("alacritty/alacritty.dark.toml");
         to_fname.push("alacritty/alacritty.light.toml");
     };
 
     if fs::try_exists(&from_fname).await.is_ok_and(|val| val) {
-        // TODO: Why oh why don't u work????
+        println!("Updating alacritty.toml to {:?}", cs);
         let mut alacritty_conf_file = dirs::config_dir().unwrap();
         alacritty_conf_file.push("alacritty/alacritty.toml");
         println!("conf -> to");
