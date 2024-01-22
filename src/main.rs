@@ -1,5 +1,5 @@
 use futures_util::stream::StreamExt;
-use std::{error::Error, rc::Rc};
+use std::error::Error;
 use tokio::fs;
 
 use zbus::{dbus_proxy, zvariant::OwnedValue, Connection};
@@ -50,7 +50,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 }
 
 async fn on_colorscheme_changed(cs: ColorScheme) -> Result<(), Box<dyn Error>> {
-    println!("Colorscheme changed: {:?}", cs);
+    println!("Colorscheme changed: {cs:?}");
 
     let (from, to) = if cs == ColorScheme::Light {
         ("catppuccin_mocha", "catppuccin_latte")
@@ -63,7 +63,7 @@ async fn on_colorscheme_changed(cs: ColorScheme) -> Result<(), Box<dyn Error>> {
     let helix_conf = fs::read_to_string(&helix_conf_file).await?;
 
     if helix_conf.contains(from) {
-        println!("Updating helix config to {:?}", cs);
+        println!("Updating helix config to {cs:?}");
         let helix_conf = helix_conf.replace(from, to);
         fs::write(helix_conf_file, &helix_conf).await?;
     } else {
@@ -81,7 +81,7 @@ async fn on_colorscheme_changed(cs: ColorScheme) -> Result<(), Box<dyn Error>> {
     };
 
     if fs::try_exists(&from_fname).await.is_ok_and(|val| val) {
-        println!("Updating alacritty.toml to {:?}", cs);
+        println!("Updating alacritty.toml to {cs:?}");
         let mut alacritty_conf_file = dirs::config_dir().unwrap();
         alacritty_conf_file.push("alacritty/alacritty.toml");
         fs::rename(&alacritty_conf_file, &to_fname).await?;
