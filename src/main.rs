@@ -84,9 +84,7 @@ async fn on_colorscheme_changed(cs: ColorScheme) -> Result<(), Box<dyn Error>> {
         println!("Updating alacritty.toml to {:?}", cs);
         let mut alacritty_conf_file = dirs::config_dir().unwrap();
         alacritty_conf_file.push("alacritty/alacritty.toml");
-        println!("conf -> to");
         fs::rename(&alacritty_conf_file, &to_fname).await?;
-        println!("from -> conf");
         fs::rename(&from_fname, &alacritty_conf_file).await?;
     } else {
         println!("File {from_fname:?} not found. Nothing to do.");
