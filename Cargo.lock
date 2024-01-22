@@ -730,7 +730,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "on-colortscheme-changed"
+name = "on-colorscheme-changed"
 version = "0.1.0"
 dependencies = [
  "dirs",
