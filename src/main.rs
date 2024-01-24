@@ -24,7 +24,7 @@ enum ColorScheme {
 async fn main() -> Result<(), Box<dyn Error>> {
     let conn = Connection::session().await?;
     let settings = SettingsProxy::new(&conn).await?;
-    let mut settings_changed = settings
+    let mut colorscheme_changing = settings
         .receive_setting_changed_with_args(&[
             (0, "org.freedesktop.appearance"),
             (1, "color-scheme"),
@@ -33,8 +33,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     println!("Connected to dbus! Waiting for changes...");
 
-    while let Some(setting) = settings_changed.next().await {
-        if let Ok(args) = setting.args() {
+    while let Some(signal) = colorscheme_changing.next().await {
+        if let Ok(args) = signal.args() {
             let val = TryInto::<u32>::try_into(args.value)?;
             match val {
                 0 => on_colorscheme_changed(ColorScheme::Light).await?,
@@ -42,7 +42,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
                 _ => panic!("Unexpected value"),
             };
         } else {
-            eprintln!("{:?}", setting.args());
+            eprintln!("{:?}", signal.args());
         }
     }
 
