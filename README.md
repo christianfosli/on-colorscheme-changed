@@ -5,6 +5,13 @@ and updating the theme for terminal emulators / terminal editors accordingly.
 
 ## Usage
 
+Prerequisites:
+
+  * Install rust and cargo. See [rust-lang.org/tools/install](https://www.rust-lang.org/tools/install).
+
+  * You'll need to be running a linux distribution which uses systemd, and where the desktop environment
+    notifies about color scheme changing on D-Bus. I know Gnome does, KDE probably does too :smile:
+
 ```sh
 git clone <this repo>
 cd on-colorscheme-changed
@@ -24,6 +31,6 @@ systemctl --user enable ./on-colorscheme-changed.service
 systemctl --user start on-colorscheme-changed
 ```
 
-## Development
+## Blog post
 
-// TODO
+I wrote a blog post about this [here](https://www.christianfosli.com/posts/on-colorscheme-changed/).
