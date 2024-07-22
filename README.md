@@ -33,4 +33,4 @@ systemctl --user start on-colorscheme-changed
 
 ## Blog post
 
-I wrote a blog post about this [here](https://www.christianfosli.com/posts/on-colorscheme-changed/).
+I wrote a blog post about this [here](https://www.christianfosli.com/posts/2024-on-colorscheme-changed/).
